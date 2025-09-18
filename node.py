@@ -5,17 +5,16 @@ from typing import Optional, List
 
 @dataclass
 class Node():
-    class Node:
-        code: str
-        name: str
-        desc: str
-        level: int
-        parent_code: Optional[str] = None
-        implementation_rule: Optional[str] = None
-        includes: Optional[str] = None
-        includes_also: Optional[str] = None
-        excludes: Optional[str] = None
-        children: Optional[List[Node]] = None
+    code: str
+    name: str
+    desc: str
+    level: int
+    parent_code: Optional[str] = None
+    implementation_rule: Optional[str] = None
+    includes: Optional[str] = None
+    includes_also: Optional[str] = None
+    excludes: Optional[str] = None
+    children: Optional[List[Node]] = None
 
     def get_name(self) -> str:
         return self.name
@@ -33,6 +32,9 @@ class Node():
         if self.children is None:
             self.children = []
         self.children.append(child)
+
+    def add_parent(self, parent: str):
+        self.parent_code = parent
     
     def count_descendants(self) -> int:
         if not self.has_children():
@@ -52,7 +54,7 @@ class Node():
                     return result
         return None
 
-    def pretty(self, indent: int = 0) -> str:
+    def pretty(self, indent: int = 2) -> str:
         pad = "  " * indent
         s = f"{pad}{self.code}: {self.name}"
         if self.children is not None:

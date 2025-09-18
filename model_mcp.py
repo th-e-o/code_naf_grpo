@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 
 
 class MCPModel():
@@ -12,12 +13,47 @@ class MCPModel():
             'Authorization': f'Bearer {self.token}',
             'Content-Type': 'application/json'
         }
-        
-    def request_llm(self, messages, tools=[]):
+        self.tools = [
+                        {
+                            "type": "function",
+                            "function": {
+                                "name": "get_node_info",
+                                "description": "Get details of the current node.",
+                                "parameters": {
+                                    "type": "object",
+                                    "required": [],
+                                },
+                            },
+                        },
+                        {
+                            "type": "function",
+                            "function": {
+                                "name": "go_down",
+                                "description": "Move to a child node by code.",
+                                "parameters": {
+                                    "type": "object",
+                                    "properties": {
+                                        "child_code": {"type": "string"}
+                                    },
+                                    "required": ["child_code"],
+                                },
+                            },
+                        },
+                        {
+                            "type": "function",
+                            "function": {
+                                "name": "go_up",
+                                "description": "Move to the parent node.",
+                                "parameters": {"type": "object", "properties": {}},
+                            },
+                        },
+                    ]
+
+    def request_llm(self, messages) -> json:
         data = {
             "model": self.model,
             "messages": messages,
-            "tools": tools,
+            "tools": self.tools,
             "tool_choice": "any",
             "parallel_tool_calls": False,
         }

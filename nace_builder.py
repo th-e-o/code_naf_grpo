@@ -1,18 +1,22 @@
 import pandas as pd
+from node import Node
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class NACEBuilder():
-    '''Class to build the tree of the NACE classification from the excel defining the NACE classification'''
-    def __init__(self, excel_path: str):
-        self.excel_path = excel_path
-        self.nodes = {}
-        self.root = None
+    '''Class to build the tree of the NACE classification from
+    the excel defining the NACE classification'''
+    def __init__(self):
+        self.nodes: dict = {}
+        self.root: Node = None
     
-    def build_from_excel(self, filename: str = None):
+    def build_from_excel(self, filename: str = None) -> (dict, Node):
         """Build NACE graph from your Excel file"""
-        file_to_use = filename if filename is not None else self.excel_path
         # Load Excel
-        df = pd.read_excel(file_to_use)
-        print(f"✅ Loaded {len(df)} entries")
+        df = pd.read_excel(filename)
+        logger.info(f"✅ Loaded {len(df)} entries")
         
         # Create all nodes
         for _, row in df.iterrows():
@@ -25,7 +29,9 @@ class NACEBuilder():
                 includes=row['Includes'] if pd.notna(row['Includes']) else None,
                 includes_also=row['IncludesAlso'] if pd.notna(row['IncludesAlso']) else None,
                 excludes=row['Excludes'] if pd.notna(row['Excludes']) else None,
-                implementation_rule=row['Implementation_rule'] if pd.notna(row['Implementation_rule']) else None
+                implementation_rule=(
+                    row['Implementation_rule'] if pd.notna(row['Implementation_rule']) else None
+                )
             )
             self.nodes[node.code] = node
         
@@ -48,9 +54,10 @@ class NACEBuilder():
                 desc='Statistical Classification of Economic Activities',
                 level=0
             )
+            self.nodes["NACE"] = self.root
             for root in roots:
                 self.root.add_child(root)
-        
-        print(f"✅ Built graph with {len(self.nodes)} nodes")
-        return self.root
+                root.add_parent(self.root.code)
 
+        logger.info(f"Built graph with {len(self.nodes)} nodes")
+        return self.nodes, self.root
