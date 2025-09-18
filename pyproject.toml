@@ -1,0 +1,14 @@
+[project]
+name = "code-naf-grpo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fitz>=0.0.1.dev2",
+    "frontend>=0.0.3",
+    "mistralai>=1.9.10",
+    "openpyxl>=3.1.5",
+    "pdfplumber>=0.11.7",
+    "python-dotenv>=1.1.1",
+]
