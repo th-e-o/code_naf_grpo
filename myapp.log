@@ -1,0 +1,6 @@
+INFO:__main__:Main started
+INFO:nace_builder:✅ Loaded 1047 entries
+INFO:nace_builder:Built graph with 1048 nodes
+INFO:root:use_tool function called. Tool get_node_info called with {} arguments
+INFO:root:use_tool function called. Tool go_down called with {'child_code': 'A'} arguments
+INFO:root:use_tool function called. Tool get_node_info called with {'code': 'A'} arguments

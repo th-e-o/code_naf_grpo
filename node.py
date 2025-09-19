@@ -16,6 +16,23 @@ class Node():
     excludes: Optional[str] = None
     children: Optional[List[Node]] = None
 
+    def to_dict(self) -> dict:
+        """
+        Return name, description, level, includes/excludes and child codes.
+        """
+        base_info = {
+            "code": self.code,
+            "name": self.name,
+            "desc": self.desc,
+            "level": self.level,
+            "parent_code": self.parent_code,
+            "includes": self.includes,
+            "includes_also": self.includes_also,
+            "excludes": self.excludes,
+            }
+        children = [c.code for c in self.children] if self.children else None
+        return {**base_info, "children": children}
+
     def get_name(self) -> str:
         return self.name
         
