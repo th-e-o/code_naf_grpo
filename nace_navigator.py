@@ -25,7 +25,8 @@ class NACENavigator():
         return self.current_node.pretty()
     
     def get_node_info(self, code: str = None) -> str: 
-        if code is None: 
+        logger.info(f"Function get_node_info called with argument : {code}")
+        if code in {None, '', ""} : 
             return str(self.to_dict())
         if code in self.nodes: 
             return str(self.nodes[code].to_dict())

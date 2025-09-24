@@ -72,13 +72,13 @@ class MCPModel():
 
     def use_tool(self, call) -> str:
         args = json.loads(call['function']['arguments'] or "{}")
-        name = call['function']['name']
-        logging.info(f"use_tool function called. Tool {name} called with {args} arguments")
+        logger.info
+        name = call['f²args} arguments")
 
         if name == "get_node_info":
-            result = self.navigator.get_node_info(**args)
+            result = self.navigator.get_node_info(*args)
         elif name == "go_down":
-            result = self.navigator.go_down(**args)
+            result = self.navigator.go_down(*args)
         elif name == "go_up":
             result = self.navigator.go_up()
         else:
